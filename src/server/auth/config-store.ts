@@ -1,4 +1,5 @@
-import { type AuthSettings } from "@/utils/schema/settings";
+import { type AuthSettings, SOCIAL_PROVIDERS } from "@/utils/schema/settings";
+type Provider = typeof SOCIAL_PROVIDERS[number];
 
 class ConfigStore {
   private auth: AuthSettings = {
@@ -15,7 +16,7 @@ class ConfigStore {
     };
   }
 
-  getProviderCredentials(provider: AuthSettings["enabledProviders"][number]) {
+  getProviderCredentials(provider: Provider) {
     return (
       this.auth.providerCredentials[provider] ?? {
         clientId: "",

@@ -2,17 +2,19 @@ import { configStore } from "@/server/auth/config-store";
 import { getAuthSettingsFromDB } from "@/server/auth/creds";
 import { db } from "@/server/db";
 import { isFirstUser } from "@/server/utils";
-import { type SocialProvider } from "@daveyplate/better-auth-ui";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { admin } from "better-auth/plugins";
+import { SOCIAL_PROVIDERS } from "@/utils/schema/settings";
 
 // Initialize auth settings before creating the auth instance
 await getAuthSettingsFromDB();
 
+type Provider = typeof SOCIAL_PROVIDERS[number];
+
 // Helper to create provider config
-const createProviderConfig = (provider: SocialProvider) => ({
+const createProviderConfig = (provider: Provider) => ({
   get clientId() {
     return configStore.getProviderCredentials(provider).clientId;
   },
@@ -22,11 +24,11 @@ const createProviderConfig = (provider: SocialProvider) => ({
 });
 
 // Get enabled providers
-const enabledProviders = configStore.getEnabledProviders();
+const enabledProviders = (configStore.getEnabledProviders() ?? []);
 
 // Create social providers config object dynamically
-const socialProvidersConfig = Object.fromEntries(
-  enabledProviders.map((provider) => [
+const socialProvidersConfig: Record<string, ReturnType<typeof createProviderConfig>> = Object.fromEntries(
+  enabledProviders.map((provider: Provider) => [
     provider,
     createProviderConfig(provider),
   ]),

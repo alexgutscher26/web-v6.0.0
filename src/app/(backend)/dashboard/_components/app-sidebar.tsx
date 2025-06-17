@@ -80,7 +80,8 @@ export default function AppSidebar({
 }: ComponentProps<typeof Sidebar>) {
   const { user } = useSession();
   const [siteSettings] = api.settings.site.useSuspenseQuery();
-  const [currentPlan] = api.payments.getCurrentBilling.useSuspenseQuery();
+  const [currentPlanRaw] = api.payments.getCurrentBilling.useSuspenseQuery();
+  const currentPlan = typeof currentPlanRaw === 'object' && currentPlanRaw !== null && 'product' in currentPlanRaw ? currentPlanRaw : undefined;
 
   const filteredNavMain = data.navMain.filter(
     (item) => !item.requireAdmin || user?.role === "admin",
@@ -96,7 +97,7 @@ export default function AppSidebar({
                 <div className="flex aspect-square size-8 items-center justify-center">
                   <Avatar className="h-8 w-8 shrink-0 rounded-none">
                     <AvatarImage
-                      src={siteSettings?.logo ?? undefined}
+                      src={typeof siteSettings?.logo === "string" ? siteSettings.logo : undefined}
                       alt="Logo preview"
                       className="object-cover"
                     />

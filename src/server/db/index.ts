@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { env } from "@/env";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
@@ -17,8 +18,11 @@ const globalForDb = globalThis as unknown as {
   conn: postgres.Sql | undefined;
 };
 
-const conn = globalForDb.conn ?? postgres(env.DATABASE_URL);
-if (env.NODE_ENV !== "production") globalForDb.conn = conn;
+const databaseUrl = env.DATABASE_URL;
+const nodeEnv = env.NODE_ENV;
+
+const conn = globalForDb.conn ?? postgres(databaseUrl);
+if (nodeEnv !== "production") globalForDb.conn = conn;
 
 export const db = drizzle(conn, {
   schema: {

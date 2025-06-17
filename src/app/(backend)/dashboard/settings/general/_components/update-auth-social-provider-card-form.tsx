@@ -24,6 +24,8 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+type SocialProvider = typeof SOCIAL_PROVIDERS[number];
+
 export function UpdateAuthSocialProviderCardForm() {
   const utils = api.useUtils();
   const [settings] = api.settings.socialAuth.useSuspenseQuery();
@@ -36,10 +38,13 @@ export function UpdateAuthSocialProviderCardForm() {
 
       await utils.settings.socialAuth.invalidate();
     },
-    onError: (error) => {
+    onError: (error: unknown) => {
+      let message = 'Failed to update settings. Please try again.';
+      if (typeof error === 'object' && error && 'message' in error && typeof (error as { message?: unknown }).message === 'string') {
+        message = (error as { message: string }).message;
+      }
       toast.error("Uh oh! Something went wrong.", {
-        description:
-          error.message || "Failed to update settings. Please try again.",
+        description: message,
         action: {
           label: "Try again",
           onClick: () => {
@@ -65,14 +70,14 @@ export function UpdateAuthSocialProviderCardForm() {
     update.mutate(data);
   };
 
-  const enabledProviders = form.watch("enabledProviders") ?? [];
+  const enabledProviders: SocialProvider[] = form.watch("enabledProviders") ?? [];
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
         <h3 className="mb-4 text-lg font-medium">Social Authentication</h3>
         <div className="space-y-4">
-          {SOCIAL_PROVIDERS.map((provider) => (
+          {SOCIAL_PROVIDERS.map((provider: SocialProvider) => (
             <FormField
               key={provider}
               control={form.control}
@@ -94,9 +99,9 @@ export function UpdateAuthSocialProviderCardForm() {
                         checked={field.value?.includes(provider)}
                         onCheckedChange={(checked) => {
                           return checked
-                            ? field.onChange([...field.value, provider])
+                            ? field.onChange([...(field.value ?? []), provider])
                             : field.onChange(
-                                field.value?.filter((v) => v !== provider),
+                                (field.value ?? []).filter((v) => v !== provider),
                               );
                         }}
                       />
@@ -118,14 +123,13 @@ export function UpdateAuthSocialProviderCardForm() {
                               <FormControl>
                                 <Input
                                   {...field}
+                                  value={typeof field.value === 'string' ? field.value : ''}
                                   className="border-border/50 bg-background"
                                   placeholder="Enter client ID"
                                 />
                               </FormControl>
                               <FormDescription className="text-xs">
-                                {provider.charAt(0).toUpperCase() +
-                                  provider.slice(1)}{" "}
-                                Client ID
+                                {provider.charAt(0).toUpperCase() + provider.slice(1)} Client ID
                               </FormDescription>
                               <FormMessage />
                             </FormItem>
@@ -143,15 +147,14 @@ export function UpdateAuthSocialProviderCardForm() {
                               <FormControl>
                                 <Input
                                   {...field}
+                                  value={typeof field.value === 'string' ? field.value : ''}
                                   className="border-border/50 bg-background"
                                   placeholder="Enter client secret"
                                   type="password"
                                 />
                               </FormControl>
                               <FormDescription className="text-xs">
-                                {provider.charAt(0).toUpperCase() +
-                                  provider.slice(1)}{" "}
-                                Client Secret
+                                {provider.charAt(0).toUpperCase() + provider.slice(1)} Client Secret
                               </FormDescription>
                               <FormMessage />
                             </FormItem>

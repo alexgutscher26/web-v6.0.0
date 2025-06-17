@@ -106,7 +106,7 @@ export const settingsRouter = createTRPCRouter({
     try {
       const settings = await ctx.db.query.settings.findFirst();
 
-      return settings?.general?.auth?.enabledProviders ?? [];
+      return (settings?.general?.auth?.enabledProviders ?? []) as string[];
     } catch (error) {
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
