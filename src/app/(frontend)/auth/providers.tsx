@@ -8,17 +8,18 @@ import { useRouter } from "next/navigation";
 export function Providers({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { data: providers = [] } = api.settings.socialAuthProviders.useQuery();
+  const typedProviders = providers as typeof import("@/utils/schema/settings").SOCIAL_PROVIDERS[number][];
 
   return (
     <AuthUIProviderTanstack
       authClient={authClient}
       rememberMe={true}
-      {...(providers.length > 0 && { providers })}
+      {...(typedProviders.length > 0 && { providers: typedProviders })}
       navigate={(href: string) => router.push(href)}
       persistClient={false}
       replace={(href: string) => router.replace(href)}
       onSessionChange={() => router.refresh()}
-      settingsURL="/dashboard/settings/profile"
+      settingsUrl="/dashboard/settings/profile"
     >
       {children}
     </AuthUIProviderTanstack>
