@@ -1,4 +1,5 @@
-import { type AuthSettings, SOCIAL_PROVIDERS } from "@/utils/schema/settings";
+import type { SOCIAL_PROVIDERS } from "@/utils/schema/settings";
+import type { AuthSettings } from "@/utils/schema/settings";
 type Provider = typeof SOCIAL_PROVIDERS[number];
 
 class ConfigStore {

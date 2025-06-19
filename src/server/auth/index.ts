@@ -6,7 +6,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { admin } from "better-auth/plugins";
-import { SOCIAL_PROVIDERS } from "@/utils/schema/settings";
+import type { SOCIAL_PROVIDERS } from "@/utils/schema/settings";
 
 // Initialize auth settings before creating the auth instance
 await getAuthSettingsFromDB();

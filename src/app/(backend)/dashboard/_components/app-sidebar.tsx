@@ -21,6 +21,7 @@ import {
   PieChart,
   Settings2,
   Users2,
+  Hash,
 } from "lucide-react";
 import Link from "next/link";
 import { type ComponentProps } from "react";
@@ -34,6 +35,11 @@ const data = {
       title: "Dashboard",
       url: "/dashboard",
       icon: LayoutDashboard,
+    },
+    {
+      title: "Hashtag Generator",
+      url: "/dashboard/hashtag-generator",
+      icon: Hash,
     },
     {
       title: "Reports",

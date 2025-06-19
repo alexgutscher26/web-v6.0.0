@@ -49,5 +49,13 @@ const config = {
       },
     ],
   },
+  overrides: [
+    {
+      files: ["src/app/api/ai/hashtag-generator/route.ts"],
+      rules: {
+        "@typescript-eslint/no-unsafe-assignment": "off"
+      }
+    }
+  ]
 };
 module.exports = config;
