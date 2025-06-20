@@ -22,6 +22,7 @@ import {
   Settings2,
   Users2,
   Hash,
+  Image as ImageIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { type ComponentProps } from "react";
@@ -40,6 +41,11 @@ const data = {
       title: "Hashtag Generator",
       url: "/dashboard/hashtag-generator",
       icon: Hash,
+    },
+    {
+      title: "Image Caption Generator",
+      url: "/dashboard/image-caption-generator",
+      icon: ImageIcon,
     },
     {
       title: "Reports",

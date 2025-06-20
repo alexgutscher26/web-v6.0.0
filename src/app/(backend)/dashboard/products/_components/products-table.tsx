@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { api } from "@/trpc/react";
 import {
   type ColumnFiltersState,
@@ -33,18 +34,25 @@ export interface TableMeta {
 
 export default function ProductsTable() {
   const [products] = api.products.all.useSuspenseQuery();
+  const isMobile = useIsMobile();
 
   const [rowSelection, setRowSelection] = useState({});
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
-    description: false,
-    hasTrial: false,
-    trialDuration: false,
-    trialUsageLimit: false,
-    marketingTaglines: false,
-    createdAt: false,
+    description: isMobile ? false : true,
+    price: isMobile ? false : true,
+    type: true,
+    mode: true,
+    limit: isMobile ? false : true,
+    hasTrial: true,
+    trialDuration: isMobile ? false : true,
+    trialUsageLimit: isMobile ? false : true,
+    marketingTaglines: isMobile ? false : true,
+    status: true,
+    createdAt: isMobile ? false : true,
     updatedAt: false,
+    subscribers: isMobile ? false : true,
   });
 
   const table = useReactTable({

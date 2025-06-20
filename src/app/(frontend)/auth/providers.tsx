@@ -24,7 +24,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
       persistClient={false}
       replace={(href: string) => router.replace(href)}
       onSessionChange={() => router.refresh()}
-      settingsUrl="/dashboard/settings/profile"
     >
       {children}
     </AuthUIProviderTanstack>

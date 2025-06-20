@@ -1,7 +1,5 @@
 # Replier v6.0.0 - Features & Improvements Todo
 
-run next build and fix all erors and then run it again dont still untill all errors are gone
-
 ## 🚀 New Features
 
 ### Social Media Platform Expansion
@@ -16,7 +14,7 @@ run next build and fix all erors and then run it again dont still untill all err
 ### AI & Content Generation
 - [ ] **Content Scheduling** - Schedule AI-generated posts across platforms
 - [X] **Hashtag Generator** - AI-powered hashtag suggestions
-- [ ] **Image Caption Generator** - AI captions for uploaded images
+- [X] **Image Caption Generator** - AI captions for uploaded images
 - [ ] **Thread Generator** - Create Twitter/LinkedIn thread content
 - [ ] **Story Generator** - AI-generated Instagram/Facebook stories
 - [ ] **Video Script Generator** - AI scripts for video content
@@ -48,7 +46,7 @@ run next build and fix all erors and then run it again dont still untill all err
 ## 🎨 UI/UX Improvements
 
 ### Dashboard Enhancements
-- [ ] **Dark/Light Mode Toggle** - Enhanced theme switching
+- [X] **Dark/Light Mode Toggle** - Enhanced theme switching
 - [ ] **Customizable Dashboard** - Drag-and-drop widget arrangement
 - [ ] **Real-time Notifications** - Live updates for mentions and replies
 - [ ] **Advanced Filtering** - Filter content by platform, date, engagement
