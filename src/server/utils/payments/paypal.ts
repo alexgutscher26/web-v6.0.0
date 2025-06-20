@@ -257,7 +257,7 @@ export class PayPalPaymentProvider implements PaymentProvider {
   async createCustomer({ email, name }: { email: string; name?: string }) {
     // PayPal doesn't have a direct customer creation API
     // We'll store customer info in our database instead
-    return { id: email, name }; // Use email as customer ID
+    return await Promise.resolve({ id: email, name }); // Use email as customer ID
   }
 
   async createCheckoutSession({
@@ -279,7 +279,7 @@ export class PayPalPaymentProvider implements PaymentProvider {
         customerId: user.email,
         priceId: product.priceId,
         returnUrl: successUrl,
-        cancelUrl: cancelUrl,
+        cancelUrl,
         metadata: {
           // Add metadata here
           userId: user.id,
@@ -332,7 +332,7 @@ export class PayPalPaymentProvider implements PaymentProvider {
       ],
       applicationContext: {
         returnUrl: successUrl,
-        cancelUrl: cancelUrl,
+        cancelUrl,
         userAction: OrderApplicationContextUserAction.PayNow,
         shippingPreference:
           OrderApplicationContextShippingPreference.NoShipping,
@@ -402,7 +402,7 @@ export class PayPalPaymentProvider implements PaymentProvider {
             }
           : undefined,
         metadata: result.purchaseUnits?.[0]?.customId
-          ? (JSON.parse(result.purchaseUnits?.[0].customId) as {
+          ? (JSON.parse(result.purchaseUnits[0].customId) as {
               userId: string;
               productId: string;
             })
@@ -558,7 +558,7 @@ export class PayPalPaymentProvider implements PaymentProvider {
   }
 
   async getBalance() {
-    throw new Error("PayPal getBalance not implemented yet");
+    await Promise.reject(new Error("PayPal getBalance not implemented yet"));
     return { available: 0, pending: 0, currency: "usd" }; // TypeScript needs this even though it's unreachable
   }
 
